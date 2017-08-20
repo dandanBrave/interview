@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>构造函数继承</title>
+</head>
+<body>
+<script>
+    /*
+    优点：子类可以向父类的构造函数传参，子类实例中的引用类型属性互不干扰
+    缺点：子类实例无法访问父类的原型(无法复用父类原型中的方法)
+     */
+    function Parent(name) {
+        this.name = name;
+        this.friends = ['A','B'];
+    }
+    Parent.prototype.say = function () {
+        console.log(this.name,this.friends);
+    }
+
+    function Child() {
+        Parent.apply(this,arguments);
+        this.age = 23;
+    }
+
+    var c1 = new Child('nameA');
+    var c2 = new Child('nameB');
+    console.log(c1.name);
+    console.log(c2.name);
+
+    c1.friends.push('C');
+    c2.friends.push('D');
+    console.log(c1.friends);  //['A','B','C']
+    console.log(c2.friends);   //['A','B','D']
+    //Uncaught TypeError: c1.say is not a function
+    console.log(c1.say());
+
+</script>
+
+</body>
+</html>

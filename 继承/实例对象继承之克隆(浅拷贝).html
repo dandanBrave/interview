@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>浅拷贝</title>
+</head>
+<body>
+<script>
+    /*
+    浅拷贝只能拷贝值类型的数据，对于引用类型，只会拷贝引用地址，如果有引用类型，
+    多个拷贝对象会共同用同一个引用类型的数据，造成混乱。
+    缺点：两个拷贝对象共用同一个引用类型，会相互影响
+     */
+    function clone(parent,child) {
+        var child = child || {};
+        for(var i in parent){
+            parent.hasOwnProperty(i) && (child[i] = parent[i])
+        }
+        return child;
+    }
+    var o1 = {arr:[1,2,4],name:'jack'};
+    var o2 = clone(o1);
+    o2.arr.push(3);
+    console.log(o1.arr);  //[1,2,4,3]
+    console.log(o2.arr);  //[1,2,4,3]
+</script>
+
+</body>
+</html>

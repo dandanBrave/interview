@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>原型+构造函数继承</title>
+</head>
+<body>
+<script>
+    /*
+    解决了纯原型继承不能给父类型传参和纯构造函数继承不能继承父类原型的缺点，把二者结合起来实现
+    缺点：子类初次实例化会多调用一个父类的构造函数(第一次创建子类原型和子类实例化时)
+     */
+    function Parent(name) {
+        this.name = name;
+        this.friends = ['A','B'];
+        console.log("Parent constructor excuted");
+    }
+    Parent.prototype.say = function () {
+        console.log(this.name,this.friends);
+    }
+
+    function Child(name,age) {
+        Parent.call(this,name);
+        this.age = age;
+        console.log("Child constructor excuted");
+    }
+    Child.prototype = new Parent();   //打印一次 'Parent constructor excuted'
+    Child.prototype.constructor = Child;
+    Child.prototype.see = function () {
+        console.log(this.age);
+    }
+
+    var c1 = new Child('jack',23);  //打印一次 'Parent constructor excuted'和'Child constructor excuted'
+    c1.friends.push('C');
+
+    console.log(c1.friends);  //['A','B','C']
+    console.log(c1.say());    //jack ["A", "B", "C"]
+    console.log(c1.see());    //23
+
+    var c2 = new Child('mary',25);   //打印一次 'Parent constructor excuted'和'Child constructor excuted'
+    c2.friends.push('D');
+    console.log(c2.friends);  //['A','B','D']
+    console.log(c2.say());    //mary ["A", "B", "D"]
+    console.log(c2.see());    //25
+</script>
+
+</body>
+</html>

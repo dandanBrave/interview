@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>临时原型</title>
+</head>
+<body>
+<script>
+    /*
+    使用一个纯净类继承父类的原型，再将纯净类的实例设置为子类的原型，如此子类继承了父类的原型和纯净类的构造函数，
+    再修正一下子类的构造函数为子类本身，这样子类的原型改动就 不影响父类。
+    缺点： 只继承了父类的原型，子类实例化时一样不能给父类的构造函数传参
+     */
+    function inherit(C,P) {
+        function F() {}
+        F.prototype = P.prototype;
+        C.prototype = new F();    //继承父类的原型，但不继承父类的构造函数
+        C.super = P.prototype;   //便于子类访问父类的原型
+        C.prototype.constructor = C;
+        return new F();
+    }
+    function Parent(age) {
+        this.name = 'parent';
+        this.age = age || 50;
+    }
+    Parent.prototype.say = function () {
+        console.log(this.name,this.age);
+    }
+
+    function Child(name,age) {
+        this.name = name;
+    }
+    inherit(Child,Parent);
+    var c1 = new Child('pake',22);   //Child constructor excuted
+    console.log(c1.age);   //undefined
+    console.log(c1.name);   //pake
+    console.log(c1.say());   //pake undefined
+</script>
+
+</body>
+</html>

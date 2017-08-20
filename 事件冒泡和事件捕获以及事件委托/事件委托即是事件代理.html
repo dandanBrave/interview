@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件委托</title>
+    <style>
+        li{
+            boder:1px solid black;
+        }
+        ul{
+            background-color: chocolate;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<ul>
+    <li>iPhone</li>
+    <li>iPad</li>
+    <li>Macbook</li>
+    <li>iPod</li>
+</ul>
+<script>
+    var parent = document.querySelector('ul');
+    parent.addEventListener('click',function (e) {
+        var el = e.target;
+        //console.log(e.target);
+        while (el.tagName !== 'LI'){
+            if(el === parent){
+                el = null;
+                break;
+            }
+                el = el.parentNode;
+                console.log(e);
+        }
+        if(el){
+            console.log(el.innerHTML);
+        }else{
+            console.log('未命中');
+        }
+    },false)
+</script>
+</body>
+</html>

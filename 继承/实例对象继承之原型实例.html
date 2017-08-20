@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>实例对象继承之原型实例</title>
+</head>
+<body>
+<script>
+    /*
+    创建一个继承父类原型的实例对象，这也是ES5中Object.create()的简单实现
+     */
+    function object(P) {
+        var F = function () {};
+        F.prototype = P.prototype;
+        return new F();
+    }
+    function Parent(name) {
+        this.name = name || 'Adam';
+    }
+    Parent.prototype.say = function () {
+        console.log(this.name);
+    }
+    var c1 = new Parent('jack');
+    console.log(c1.name);      //jack
+    var c2 = new Object(c1);
+    console.log(c2.name);   //jack
+    c2.name = 'mark';
+    console.log(c2.name);    //mark
+    console.log(c1.say());  //mark
+    console.log(c2.say());    //mark
+
+</script>
+
+</body>
+</html>

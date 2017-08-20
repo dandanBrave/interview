@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>临时原型加构造函数继承</title>
+</head>
+<body>
+<script>
+    /*
+    在子类的构造函数中调用父类的构造函数，修复了临时原型不能传递参数给父类构造函数的问题
+     */
+    function inherit(C,P) {
+        function F() {}
+        F.prototype = P.prototype;
+        C.prototype = new F();
+        C.super = P.prototype;
+        C.prototype.constructor = C;
+        return new F();
+    }
+    function Parent(age) {
+        this.name = 'parent';
+        this.age = age || 50;
+    }
+    Parent.prototype.say = function () {
+        console.log(this.name,this.age);
+    }
+
+    function Child(name,age) {
+        Parent.call(this,age);
+        this.name = name;
+    }
+    inherit(Child,Parent);
+    var c1 = new Child('pake',22);
+    console.log(c1.age);   //22
+    console.log(c1.name);   //pake
+    console.log(c1.say());   //pake 22
+    console.log('-------另一种相同的实现---------');
+
+    function Shape() {
+        this.x = 0;
+        this.y = 0;
+    }
+    Shape.prototype.move = function (x,y) {
+        this.x += x;
+        this.y += y;
+        console.log("Shape moved.")
+    }
+    function Rectangle() {
+        Shape.call(this);
+    }
+    Rectangle.prototype = Object.create(Shape.prototype);
+    var rect = new Rectangle();
+    console.log(rect instanceof Rectangle);    //true
+    console.log(rect instanceof Shape);      //true
+    rect.move();    //Shape moved.
+
+</script>
+
+</body>
+</html>
