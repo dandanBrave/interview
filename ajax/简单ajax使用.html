@@ -5,21 +5,28 @@
     <title>简单ajax使用</title>
 </head>
 <body>
+<form name="myForm">
+    用户： <input type="text" name="username" onkeyup="ajaxFunction()">
+    时间： <input type="text" name="time">
+</form>
 <script>
-    //新建一个请求对象，不兼容IE7以下
-    var xhr = new XMLHttpRequest();
-    //设置回调函数，回调函数要放在open()方法之前才能确保浏览器兼容性
-    xhr.onreadystatechange = function () {
-        if(xhr.readyState == 4){
-            alert(xhr.responseText);
-        }else{
-            slert("Request was unsuccessful: "+ xhr.status);
+    function ajaxFunction() {
+        //新建一个请求对象，不兼容IE7以下
+        var xhr = new XMLHttpRequest();
+        //设置回调函数，回调函数要放在open()方法之前才能确保浏览器兼容性
+        xhr.onreadystatechange = function () {
+            if(xhr.readyState == 4){
+                alert(xhr.responseText);
+            }else{
+                slert("Request was unsuccessful: "+ xhr.status);
+            }
         }
+        //启动一个针对example.txt的GET请求
+        xhr.open('get','example.txt',true);
+        //发送整个请求
+        xhr.send(null);
     }
-    //启动一个针对example.txt的GET请求
-    xhr.open('get','example.txt',true);
-    //发送整个请求
-    xhr.send(null);
+
 
 </script>
 
