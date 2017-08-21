@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>闭包一</title>
+</head>
+<body>
+<script>
+    var name = 'The window';
+    var object = {
+        name : 'My Object',
+        getNameFunc : function () {
+            return function () {
+                return this.name;
+            };
+        }
+    };
+    console.log(object.getNameFunc());     //ƒ () {return this.name;}
+    console.log(object.getNameFunc()());     //The window
+</script>
+
+</body>
+</html>
