@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>闭包例子一</title>
+</head>
+<body>
+<script>
+    function foo() {
+        var a = 1;
+        function bar() {
+            a = a + 1;
+            console.log(a);
+        }
+        return bar;
+    }
+    var closure = foo();
+    var closure2 = foo();
+    closure();     //2
+    closure2();    //2
+    closure();     //3
+</script>
+
+</body>
+</html>
